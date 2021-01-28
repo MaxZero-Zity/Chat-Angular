@@ -1,16 +1,21 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
+import { HeroesComponent } from './heroes/heroes.component';
+import { ChildComponentComponent } from './child-component/child-component.component';
+import { HelloServiceService } from './hello-service.service';
+
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    HeroesComponent,
+    ChildComponentComponent,
   ],
   imports: [
     BrowserModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [HelloServiceService],
+  bootstrap: [HeroesComponent]
 })
 export class AppModule { }
