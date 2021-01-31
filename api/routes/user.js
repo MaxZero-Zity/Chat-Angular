@@ -9,7 +9,6 @@ router.get('/', (req, res, next) => {
 router.post('/create',
     [
         body('email').isEmail().normalizeEmail().escape(),
-        body('password').isLength({min:8, max:20}),
     ],
     UsersController.createUsers);
 
