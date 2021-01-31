@@ -40,7 +40,7 @@ export class AuthService {
     return firebase.auth().signInWithEmailAndPassword(email, password)
       .then((result) => {
         this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['/dashboard']);
         });
         this.setUserData(result.user);
       }).catch((error) => {
@@ -57,7 +57,7 @@ export class AuthService {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
         this.sendVerificationMail();
-        this.setUserData(result.user);
+        this.setDataUserRegister(result.user);
       }).catch((error) => {
         window.alert(error.message)
       })
@@ -87,13 +87,26 @@ export class AuthService {
     return (user !== null && user.emailVerified !== false) ? true : false;
   }
 
-
-
-  setUserData(user) {
-    //ใส่ user ลง Db
+  setDataUserRegister(user){
+        //ใส่ user ลง Db
     this.restApi.createUser({email:user.email}).subscribe((data: {}) => {
       this.router.navigate(['login'])
     })
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    const userData: User = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified
+    }
+    return userRef.set(userData, {
+      merge: true
+    })
+  }
+
+
+  setUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
