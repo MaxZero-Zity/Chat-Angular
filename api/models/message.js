@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER(),
         allowNull: false,
     },
+    read_status:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
     status: {
       type: DataTypes.CHAR(1),
       allowNull: true,

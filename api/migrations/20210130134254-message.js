@@ -20,6 +20,10 @@ module.exports = {
         type: Sequelize.INTEGER(),
         allowNull: false,
       },
+      read_status:{
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       status: {
         type: Sequelize.CHAR(1),
         allowNull: true,
