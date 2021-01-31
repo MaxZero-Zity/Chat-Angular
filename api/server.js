@@ -4,6 +4,7 @@ const cors = require('cors')
 require('dotenv').config();
 const FRONT_URL = process.env.FRONT_URL;
 var http = require('http').createServer(app);
+const router = require('../api/routes/index');
 var io = require('socket.io')(http, {
     cors: {
       origin:  process.env.FRONT_URL,
@@ -25,7 +26,7 @@ app.get('/', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', FRONT_URL);
     res.send('hello!')
 });
-
+app.use('/api', router);
 //Socket.Io
 io.on('connection',(socket) =>{
     console.log('a user connected')
