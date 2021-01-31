@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 // Component
 import { AppComponent } from './app.component';
-import { ChatInboxComponent } from './chat-inbox/chat-inbox.component';
+import { ChatInboxComponent } from './component/chat-inbox/chat-inbox.component';
 import { LoginComponent } from './component/login/login.component';
 import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { NavbarComponent } from './component/navbar/navbar.component';

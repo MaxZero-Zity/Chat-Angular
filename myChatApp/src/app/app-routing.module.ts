@@ -7,7 +7,7 @@ import { NavbarComponent } from './component/navbar/navbar.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { RegisterComponent } from './component/register/register.component';
 import { VerifyEmailComponent } from './component/verify-email/verify-email.component';
-
+import { ChatInboxComponent } from './component/chat-inbox/chat-inbox.component';
 // Service
 import { AuthService } from './services/auth.service';
 
@@ -22,7 +22,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent,canActivate: [AuthGuard] },
-  { path: 'verify-email-address', component: VerifyEmailComponent }
+  { path: 'verify-email-address', component: VerifyEmailComponent },
+  { path: 'chat-inbox', component: ChatInboxComponent },
 ];
 
 @NgModule({

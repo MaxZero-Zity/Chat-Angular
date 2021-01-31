@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { from } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestApiService } from 'src/app/shared/services/rest-api.service';
@@ -14,6 +15,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public restApi: RestApiService,
+    public router: Router,
     ) { }
 
   ngOnInit(): void {
@@ -23,5 +25,8 @@ export class DashboardComponent implements OnInit {
     return this.restApi.getAllRoomsChat().subscribe((data: {}) => {
       this.rooms = data['data'];
     })
+  }
+  gotoChatRoom(){
+    this.router.navigate(['/chat-inbox']);
   }
 }
