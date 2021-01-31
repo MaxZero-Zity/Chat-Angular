@@ -30,9 +30,9 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="inner-adjust">
 
-        <div class="card" style="width: 18rem;">
+        <div class="card"  style="width: 18rem;" *ngFor="let item of rooms">
           <div class="card-body">
-            <h5 class="card-title">Twinsynergy</h5>
+            <h5 class="card-title">{{item.name}}</h5>
             <a href="#" class="btn btn-primary">Chat</a>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../services/user-backend';
+import { Rooms } from '../services/room-model';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 @Injectable({
@@ -11,7 +12,7 @@ import { retry, catchError } from 'rxjs/operators';
 export class RestApiService {
 
   // Define API
-  apiURL = 'http://localhost:3000/api/user';
+  apiURL = 'http://localhost:3000/api';
   constructor(private http: HttpClient) { }
 
 
@@ -22,7 +23,15 @@ export class RestApiService {
     })
   }
   createUser(user): Observable<User> {
-    return this.http.post<User>(this.apiURL + '/create', JSON.stringify(user), this.httpOptions)
+    return this.http.post<User>(this.apiURL + '/user/create', JSON.stringify(user), this.httpOptions)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
+  }
+
+  getAllRoomsChat():Observable<Rooms>{
+    return this.http.get<Rooms>(this.apiURL + '/rooms/all')
     .pipe(
       retry(1),
       catchError(this.handleError)
