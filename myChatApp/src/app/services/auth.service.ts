@@ -4,6 +4,7 @@ import { User } from "../shared/services/user";
 import firebase from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { RestApiService } from '../shared/services/rest-api.service';
 
 
 
@@ -17,7 +18,8 @@ export class AuthService {
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    public ngZone: NgZone // NgZone service to remove outside scope warning
+    public ngZone: NgZone,
+    public restApi: RestApiService,
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -88,6 +90,10 @@ export class AuthService {
 
 
   setUserData(user) {
+    //ใส่ user ลง Db
+    this.restApi.createUser({email:user.email}).subscribe((data: {}) => {
+      this.router.navigate(['login'])
+    })
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
