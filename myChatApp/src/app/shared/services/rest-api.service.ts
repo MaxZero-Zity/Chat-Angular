@@ -31,8 +31,9 @@ export class RestApiService {
     )
   }
 
-  getAllRoomsChat():Observable<Rooms>{
-    return this.http.get<Rooms>(this.apiURL + '/rooms/all')
+  getAllRoomsChat(email:string):Observable<Rooms>{
+    console.log('ssss= =',email);
+    return this.http.get<Rooms>(this.apiURL + '/rooms/all/'+email)
     .pipe(
       retry(1),
       catchError(this.handleError)

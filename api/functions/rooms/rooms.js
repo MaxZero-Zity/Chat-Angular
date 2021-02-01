@@ -1,21 +1,28 @@
 const Models = require('../../models');
-exports.findAllRoomById = ({userId=0}) => {
-    return new Promise(((resolve, reject) => {
-        Models.rooms.findAll({
-            where: {
-                user_id:userId
+exports.findAllRoomById = ({email=''}) => {
+    return new Promise((resolve, reject) => {
+        
+        Models.sequelize.query(`
+        SELECT 
+        rooms.id as id,
+        (SELECT MAX(name) FROM users WHERE rooms.friend_id) as friend_name,
+        rooms.friend_id as friend_id,
+        users.id as user_id,
+        users.name as name,
+        users.email as email
+        FROM rooms 
+        LEFT JOIN users
+        ON rooms.user_id = users.id
+        WHERE users.email = :email and rooms.status = '1'
+        `,
+            {
+                replacements: { email: email ? email : '' },
+                type: Models.sequelize.QueryTypes.SELECT
             }
-        }).then((data) => {
-            console.log('data', data)
-            if(data) {
-                resolve(data)
-            } else {
-                const error = new Error('Not Found')
-                reject(error);
-                
-            }
-        }).catch((error => {reject(error)}));
-    }));
+        ).then((doc) => {
+            resolve(doc)
+        }).catch((error) => reject(error))
+    })
 }
 
 

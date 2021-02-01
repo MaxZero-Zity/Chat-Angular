@@ -7,7 +7,7 @@ router.get('/', (req, res, next) => {
     res.send("rooms");
 });
 
-router.get('/all',
+router.get('/all/:email',
     RoomsController.getAllById)
 
 

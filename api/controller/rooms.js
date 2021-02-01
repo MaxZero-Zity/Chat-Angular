@@ -5,7 +5,9 @@ const {findAllRoomById} = require('../functions/rooms/rooms');
 
 exports.getAllById = (req, res, next) => {
     try {
-        findAllRoomById({userId:4})
+        const { email } = req.params;
+        console.log('emaill ==',email);
+        findAllRoomById({email:email})
         .then((result) => {
             res.status(200).json({
                 message: 'success',
