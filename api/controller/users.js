@@ -46,7 +46,6 @@ exports.createUsers = (req, res, next) => {
             e.status = 500;
             return next(e)
         } else {
-            logger.error(e.message)
             return next(e)
         }
     }

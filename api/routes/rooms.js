@@ -10,4 +10,6 @@ router.get('/', (req, res, next) => {
 router.get('/all',
     RoomsController.getAllById)
 
+
+
 module.exports = router;

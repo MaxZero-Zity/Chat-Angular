@@ -17,3 +17,5 @@ exports.findAllRoomById = ({userId=0}) => {
         }).catch((error => {reject(error)}));
     }));
 }
+
+

@@ -17,7 +17,7 @@ export class ChatInboxComponent implements OnInit {
   }
   setupSocketConnection(){
     this.roomId = this.activatedRoute.snapshot.paramMap.get("id");
-    console.log('roomId ==',this.roomId);
+    // console.log('roomId ==',this.roomId);
     this.socket = io(SOCKET_ENDPOINT,{ query: "roomId="+this.roomId });
     // console.log(this.socket.)
     this.socket.on('message-broadcast', (data: string) => {
