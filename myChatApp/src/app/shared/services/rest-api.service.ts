@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../services/user-backend';
 import { Rooms } from '../services/room-model';
+import { Messages } from '../services/message-model';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 @Injectable({
@@ -37,6 +38,22 @@ export class RestApiService {
       catchError(this.handleError)
     )
   }
+  addMessage(message):Observable<Messages>{
+    return this.http.post<Messages>(this.apiURL + '/message/add', JSON.stringify(message), this.httpOptions)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
+  }
+  getMessageByRoom(roomId):Observable<Messages>{
+    return this.http.get<Messages>(this.apiURL + '/message/all/'+roomId)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
+  }
+
+
 
     // Error handling
     handleError(error) {

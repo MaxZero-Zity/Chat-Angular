@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 const MessageController = require('../controller/message');
 
-
+router.get('/all/:id',  
+    MessageController.getMessageAll)
 
 router.post('/add',
     [

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { io } from 'socket.io-client';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { RestApiService } from 'src/app/shared/services/rest-api.service';
 const SOCKET_ENDPOINT ='localhost:3000';
 @Component({
   selector: 'app-chat-inbox',
@@ -10,7 +12,12 @@ const SOCKET_ENDPOINT ='localhost:3000';
 export class ChatInboxComponent implements OnInit {
   socket;
   message: string;
-  constructor(private activatedRoute:ActivatedRoute) { }
+  constructor(
+    private activatedRoute:ActivatedRoute,
+    public authService: AuthService,
+    public restApi: RestApiService,
+    public router: Router,
+  ) { }
   roomId;
   ngOnInit(): void {
     this.setupSocketConnection();
@@ -34,6 +41,9 @@ export class ChatInboxComponent implements OnInit {
   }
   SendMessage(){
     this.socket.emit('room'+this.roomId, this.message);
+    this.restApi.addMessage({text:this.message,room_id:parseInt(this.roomId),user_id:1}).subscribe((data: {}) => {
+      console.log('บันทึกสำเร็จ')
+    })
     const element = document.createElement('li');
     element.innerHTML = this.message;
     element.style.background = 'white';
