@@ -20,6 +20,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { firebaseConfig } from  './config/firebase/firebaeConfig'
 import { AuthService } from './services/auth.service';
 import { VerifyEmailComponent } from './component/verify-email/verify-email.component';
+import { ChatBoxUserComponent } from './component/chat-box-user/chat-box-user.component';
 
 
 
@@ -38,6 +39,7 @@ import { VerifyEmailComponent } from './component/verify-email/verify-email.comp
     ProfileComponent,
     RegisterComponent,
     VerifyEmailComponent,
+    ChatBoxUserComponent,
   ],
   imports: [
     HttpClientModule,

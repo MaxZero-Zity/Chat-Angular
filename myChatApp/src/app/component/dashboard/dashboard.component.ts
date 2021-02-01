@@ -12,6 +12,7 @@ import { RestApiService } from 'src/app/shared/services/rest-api.service';
 export class DashboardComponent implements OnInit {
   imageSrc = '../../../assets/MaxZero-logo.png';
   rooms: any = [];
+
   constructor(
     public authService: AuthService,
     public restApi: RestApiService,
@@ -26,7 +27,7 @@ export class DashboardComponent implements OnInit {
       this.rooms = data['data'];
     })
   }
-  gotoChatRoom(){
-    this.router.navigate(['/chat-inbox']);
+  gotoChatRoom(roomId){
+    this.router.navigate(['/chat-inbox',roomId]);
   }
 }

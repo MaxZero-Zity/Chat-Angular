@@ -33,7 +33,7 @@
         <div class="card"  style="width: 18rem;" *ngFor="let item of rooms">
           <div class="card-body">
             <h5 class="card-title">{{item.name}}</h5>
-            <a [routerLink]="" class="btn btn-primary" (click)="gotoChatRoom()">Chat</a>
+            <a [routerLink]="" class="btn btn-primary" (click)="gotoChatRoom(item.id)">Chat</a>
           </div>
         </div>
         <hr>

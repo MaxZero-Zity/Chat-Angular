@@ -24,15 +24,23 @@ app.use(function (req, res, next) {
   });
 app.get('/', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', FRONT_URL);
+    // res.io = io;
     res.send('hello!')
 });
 app.use('/api', router);
 //Socket.Io
+io.use(function(socket, next) {
+  // var handshakeData = socket.request;
+  // console.log("middleware:", handshakeData._query['foo']);
+  next();
+});
 io.on('connection',(socket) =>{
-    console.log('a user connected')
-    socket.on('message',(msg)=>{
-        console.log(msg);
-        socket.broadcast.emit('message-broadcast',msg);
+    var roomId = socket.request;
+    var stringRoomId = 'room'+String(roomId._query['roomId']);
+    console.log('a user connected == '+stringRoomId);
+    socket.join(stringRoomId);
+    socket.on(stringRoomId,(msg)=>{
+        socket.broadcast.to(stringRoomId).emit('message-broadcast',msg);
     });
 });
 
