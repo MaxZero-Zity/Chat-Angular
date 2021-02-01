@@ -4,11 +4,12 @@ exports.addMessage = ({text='',userId=0,roomId=0}) => {
     console.log("userId==",userId);
     console.log("roomId==",roomId);
     return new Promise(((resolve, reject) => {
-        Models.message.create({
+        Models.messages.create({
             text:text,
             user_id:userId,
             room_id:roomId,
             read_status:false,
+            status:true,
         }).then((data) => {
             if(data) {
                 resolve({message:'บันทึกสำเร็จ'})
