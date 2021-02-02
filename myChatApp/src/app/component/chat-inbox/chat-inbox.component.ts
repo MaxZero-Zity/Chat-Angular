@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestApiService } from 'src/app/shared/services/rest-api.service';
-const SOCKET_ENDPOINT ='localhost:3000';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-chat-inbox',
   templateUrl: './chat-inbox.component.html',
@@ -28,7 +28,7 @@ export class ChatInboxComponent implements OnInit {
   setupSocketConnection(){
     this.roomId = this.activatedRoute.snapshot.paramMap.get("id");
     // console.log('roomId ==',this.roomId);
-    this.socket = io(SOCKET_ENDPOINT,{ query: "roomId="+this.roomId });
+    this.socket = io(environment.SOCKET_ENDPOINT,{ query: "roomId="+this.roomId });
     // console.log(this.socket.)
 
     this.restApi.getMessageByRoom(this.roomId).subscribe((data: {}) => {

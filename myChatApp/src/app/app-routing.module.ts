@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent,canActivate: [AuthGuard] },
   { path: 'verify-email-address', component: VerifyEmailComponent },
-  { path: 'chat-inbox/:id', component: ChatInboxComponent },
+  { path: 'chat-inbox/:id', component: ChatInboxComponent ,canActivate: [AuthGuard] },
 ];
 
 @NgModule({

@@ -5,6 +5,8 @@ import { Rooms } from '../services/room-model';
 import { Messages } from '../services/message-model';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +15,7 @@ import { retry, catchError } from 'rxjs/operators';
 export class RestApiService {
 
   // Define API
-  apiURL = 'http://localhost:3000/api';
+  apiURL = environment.API_URL;
   constructor(private http: HttpClient) { }
 
 
@@ -32,7 +34,6 @@ export class RestApiService {
   }
 
   getAllRoomsChat(email:string):Observable<Rooms>{
-    console.log('ssss= =',email);
     return this.http.get<Rooms>(this.apiURL + '/rooms/all/'+email)
     .pipe(
       retry(1),
