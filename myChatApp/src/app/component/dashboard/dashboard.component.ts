@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
       this.rooms = data['data'];
     })
   }
-  gotoChatRoom(roomId){
-    this.router.navigate(['/chat-inbox',roomId]);
+  gotoChatRoom(roomId,friendName,friendId){
+    this.router.navigate(['/chat-inbox',roomId,friendName,friendId]);
   }
 }

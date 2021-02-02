@@ -28,7 +28,7 @@
         <div class="card"  style="width: 18rem;" *ngFor="let item of rooms">
           <div class="card-body">
             <h5 class="card-title">{{item.friend_name}}</h5>
-            <a [routerLink]="" class="btn btn-primary" (click)="gotoChatRoom(item.id)">Chat</a>
+            <a [routerLink]="" class="btn btn-primary" (click)="gotoChatRoom(item.id,item.friend_name,item.friend_id)">Chat</a>
           </div>
         </div>
         <hr>

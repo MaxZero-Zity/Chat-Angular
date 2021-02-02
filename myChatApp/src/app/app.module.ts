@@ -22,6 +22,7 @@ import { AuthService } from './services/auth.service';
 import { VerifyEmailComponent } from './component/verify-email/verify-email.component';
 import { ChatBoxUserComponent } from './component/chat-box-user/chat-box-user.component';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -42,6 +43,7 @@ import { ChatBoxUserComponent } from './component/chat-box-user/chat-box-user.co
     ChatBoxUserComponent,
   ],
   imports: [
+    FontAwesomeModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
@@ -50,6 +52,7 @@ import { ChatBoxUserComponent } from './component/chat-box-user/chat-box-user.co
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(firebaseConfig)
+
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
