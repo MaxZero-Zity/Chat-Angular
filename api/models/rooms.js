@@ -5,14 +5,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(100),
       allowNull: false,
     },   
-    friend_id: {
-      type: DataTypes.INTEGER(),
-      allowNull: false,
-    },
-    user_id: {
-      type: DataTypes.INTEGER(),
-      allowNull: false,
-    },
     status: {
       type: DataTypes.CHAR(1),
       allowNull: true,
@@ -24,9 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updatedAt'
   });
   Rooms.associate = (models) => {
-    Rooms.belongsTo(models.users, {foreignKey: 'user_id'});
-    Rooms.belongsTo(models.users, {foreignKey: 'friend_id'});
-    Rooms.hasMany(models.relationship_room, { foreignKey: 'room_id'});
+    Rooms.hasMany(models.relationship_rooms, { foreignKey: 'room_id'});
     // Users.hasOne(models.promotions, {foreignKey: 'user_id', as: 'users'})
   };
   return Rooms;

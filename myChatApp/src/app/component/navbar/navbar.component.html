@@ -14,13 +14,10 @@
         <a class="nav-link" [routerLink]="['/dashboard']">หน้าแรก</a>
       </li>
       <li>
-        <a class="nav-link" [routerLink]="['/login']">เข้าสู่ระบบ</a>
-      </li>
-      <li>
         <a class="nav-link" [routerLink]="['/profile']">โปรไฟล์</a>
       </li>
       <li>
-        <a class="nav-link">ออกจากระบบ</a>
+        <a class="nav-link" (click)="authService.logOut()">ออกจากระบบ</a>
       </li>
     </ul>
   </div>

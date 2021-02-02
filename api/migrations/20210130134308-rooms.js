@@ -12,14 +12,6 @@ module.exports = {
         type: Sequelize.STRING(50),
         allowNull: false,
       },
-      friend_id: {
-        type: Sequelize.INTEGER(),
-        allowNull: false,
-      },
-      user_id: {
-        type: Sequelize.INTEGER(),
-        allowNull: false,
-      },
       status: {
         type: Sequelize.CHAR(1),
         allowNull: true,

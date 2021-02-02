@@ -1,54 +1,60 @@
-<!-- Top navigation -->
 <app-navbar></app-navbar>
-<!-- Sidebar navigation -->
-<div class="container-fluid">
-  <div class="row">
-    <nav class="col-md-2 d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active">
-              <i class="fas fa-user"></i>User Profile
+<div class="container py-5 px-4">
+  <div class="row rounded-lg overflow-hidden shadow">
+    <!-- Users box-->
+    <div class="col-5 px-0">
+      <div class="bg-white">
+        <div class="bg-gray px-4 py-2 bg-light">
+          <p class="h5 mb-0 py-1">Recent</p>
+        </div>
+        <div class="messages-box">
+          <div class="list-group rounded-0">
+            <a *ngFor="let item of rooms" [routerLink]="" (click)="selectChatRoom(item.room_id,item.friendName,item.friendId)" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                <div class="media-body ml-4">
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="mb-0">{{item.friendName}}</h6>
+                    <!-- <small class="small font-weight-bold">21 Aug</small> -->
+                  </div>
+                  <!-- <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> -->
+                </div>
+              </div>
             </a>
-          </li>
-          <!-- Calling SignOut() Api from AuthService -->
-          <li class="nav-item">
-            <a class="nav-link" (click)="authService.logOut()">
-              <i class="fas fa-sign-out-alt"></i>Log out
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <!-- Main content -->
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-      <div class="inner-adjust">
-
-        <div class="card"  style="width: 18rem;" *ngFor="let item of rooms">
-          <div class="card-body">
-            <h5 class="card-title">{{item.friend_name}}</h5>
-            <a [routerLink]="" class="btn btn-primary" (click)="gotoChatRoom(item.id,item.friend_name,item.friend_id)">Chat</a>
           </div>
         </div>
-        <hr>
-        <!-- Show user data when logged in -->
-        <div class="row" *ngIf="authService.userData as user">
-          <div class="col-md-12">
-            <div class="media">
-              <!-- <img class="align-self-start mr-5 img-thumbnail rounded-circle" src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}"
-                alt="{{user.displayName}}"> -->
-              <div class="media-body">
-                <p>User ID: <strong>{{user.uid}}</strong></p>
-                <p>Email: <strong>{{user.email}}</strong></p>
-                <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
+      </div>
+    </div>
+    <!-- Chat Box-->
+    <div class="col-7 px-0">
+      <div class="px-4 py-5 chat-box bg-white">
+        <div *ngFor="let item of dataMessage">
+          <!-- Sender Message-->
+            <div  *ngIf="friendId === item['user_id']" class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+              <div class="media-body ml-3">
+                <div class="bg-light rounded py-2 px-3 mb-2">
+                  <p class="text-small mb-0 text-muted">{{item['text']}}</p>
+                </div>
+                <p class="small text-muted"> {{item['text']}}</p>
               </div>
             </div>
+          <!-- Reciever Message-->
+            <div *ngIf="friendId !== item['user_id']" class="media w-50 ml-auto mb-3">
+              <div class="media-body">
+                <div class="bg-primary rounded py-2 px-3 mb-2">
+                  <p class="text-small mb-0 text-white">{{item['text']}}</p>
+                </div>
+                <!-- <p class="small text-muted"></p> -->
+              </div>
+            </div>
+        </div>
+      </div>
+      <!-- Typing area -->
+        <div class="input-group">
+          <input [disabled]="!statusSelectRoom" type="text" placeholder="Type a message" class="form-control rounded-0 border-0 py-4 bg-light" [(ngModel)]="message">
+          <div class="input-group-append">
+            <button  [disabled]="!statusSelectRoom" (click)="sendMessage()" id="button-addon2" type="submit" class="btn btn-link">  <fa-icon [icon]="faComment"></fa-icon></button>
           </div>
         </div>
-
-      </div>
-    </main>
-
+    </div>
   </div>
 </div>

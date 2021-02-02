@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable('relationship_room', {
+    return queryInterface.createTable('relationship_rooms', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -15,7 +15,14 @@ module.exports = {
           model: 'users', key: 'id'
         }
       },
-      rooms_id: {
+      friend_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users', key: 'id'
+        }
+      },
+      room_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -36,6 +43,6 @@ module.exports = {
     });
   },
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('relationship_room');
+    return queryInterface.dropTable('relationship_rooms');
   }
 };

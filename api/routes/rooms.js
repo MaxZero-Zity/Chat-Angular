@@ -7,9 +7,11 @@ router.get('/', (req, res, next) => {
     res.send("rooms");
 });
 
-router.get('/all/:email',
-    RoomsController.getAllById)
-
+router.post('/all',
+[
+    body('id').not().isEmpty().isInt(),
+],
+RoomsController.getAllById);
 
 
 module.exports = router;
