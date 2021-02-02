@@ -12,4 +12,10 @@ router.post('/create',
     ],
     UsersController.createUsers);
 
+router.post('/get/profile', 
+    [
+        body('email').isEmail().normalizeEmail().escape(),
+    ],
+    UsersController.getUserProfile);
+
 module.exports = router;

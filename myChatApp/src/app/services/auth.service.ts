@@ -36,22 +36,20 @@ export class AuthService {
   }
 
   // Sign in with email/password
-  logIn(email, password) {
-    return firebase.auth().signInWithEmailAndPassword(email, password)
+  async logIn(email, password)  {
+    return await firebase.auth().signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['/dashboard']);
-        });
         this.setUserData(result.user);
+        this.router.navigate(['/dashboard']);
       }).catch((error) => {
-        window.alert(error.message)
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        window.alert(errorMessage)
       })
   }
-
   // Sign up with email/password
   register(email, password) {
     // window.alert("SignUp");
-
     return firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign
@@ -67,7 +65,7 @@ export class AuthService {
   sendVerificationMail() {
     return firebase.auth().currentUser.sendEmailVerification()
     .then(() => {
-      this.router.navigate(['verify-email-address']);
+      this.router.navigate(['/verify-email-address']);
     })
   }
 
@@ -84,7 +82,7 @@ export class AuthService {
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false) ? true : false;
+    return (user !== null) ? true : false;
   }
 
   setDataUserRegister(user){
@@ -118,13 +116,14 @@ export class AuthService {
     return userRef.set(userData, {
       merge: true
     })
+
   }
 
   // Sign out
   logOut() {
     return firebase.auth().signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['login']);
+      this.router.navigate(['/login']);
     })
   }
 

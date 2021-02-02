@@ -18,12 +18,12 @@ import { AuthGuard } from './guards/auth.guard';
 // Routes
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent,canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'dashboard', component: DashboardComponent,canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent,canActivate: [AuthGuard] },
   { path: 'verify-email-address', component: VerifyEmailComponent },
-  { path: 'chat-inbox/:id/:name/:friendId', component: ChatInboxComponent ,canActivate: [AuthGuard] },
+  { path: 'chat-inbox/:id/:name/:friendId/:userId', component: ChatInboxComponent ,canActivate: [AuthGuard] },
 ];
 
 @NgModule({

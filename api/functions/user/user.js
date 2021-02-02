@@ -4,7 +4,8 @@ exports.findUserByEmail = ({email=''}) => {
     return new Promise(((resolve, reject) => {
         Models.users.findOne({
             where: {
-                email:email
+                email:email,
+                status:1
             }
         }).then((data) => {
             // console.log('data', data)
@@ -17,18 +18,25 @@ exports.findUserByEmail = ({email=''}) => {
         }).catch((error => {reject(error)}));
     }));
 }
+
+
 exports.getUserByEmail = ({email=''}) => {
     return new Promise(((resolve, reject) => {
         Models.users.findOne({
             where: {
-                email:email
+                email:email,
+                status:1
             }
         }).then((data) => {
+            // console.log('data', data)
             if(data) {
+                
                 resolve(data)
             } else {
-                reject(null);
+                const error = new Error('ไม่พบข้อมูล')
+                reject(error);
             }
         }).catch((error => {reject(error)}));
     }));
 }
+

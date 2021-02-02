@@ -22,6 +22,29 @@ exports.findAllMessageById = ({roomId=0}) => {
         }).catch((error => {reject(error)}));
     }));
 }
+exports.findLastMessageById = ({roomId=0}) => {
+    return new Promise(((resolve, reject) => {
+        Models.messages.findOne({
+            where: {
+                room_id:roomId,
+                status:'1'
+            },
+            order: [
+                ['createdAt', 'DESC']
+            ],
+            limit:1
+        }).then((data) => {
+            console.log('data', data)
+            if(data) {
+                resolve(data)
+            } else {
+                const error = new Error('Not Found')
+                reject(error);
+                
+            }
+        }).catch((error => {reject(error)}));
+    }));
+}
 
 
 exports.addMessage = ({text='',userId=0,roomId=0}) => {
@@ -36,8 +59,10 @@ exports.addMessage = ({text='',userId=0,roomId=0}) => {
             read_status:false,
             status:true,
         }).then((data) => {
+
             if(data) {
-                resolve({message:'บันทึกสำเร็จ'})
+                console.log('message ==', data)
+                resolve(data)
             } else {
                 const error = new Error('บันทึกไม่ได้')
                 reject(error);

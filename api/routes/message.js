@@ -6,6 +6,9 @@ const MessageController = require('../controller/message');
 router.get('/all/:id',  
     MessageController.getMessageAll)
 
+router.get('/last/:id',  
+    MessageController.getMessageLast)
+
 router.post('/add',
     [
         body('text').isString().trim().isLength({min:1,max:100}).escape(),

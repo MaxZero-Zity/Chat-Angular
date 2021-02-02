@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../services/user-backend';
 import { Rooms } from '../services/room-model';
 import { Messages } from '../services/message-model';
+import { UserProfile } from '../services/userProfile-model';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -25,6 +26,7 @@ export class RestApiService {
       'Content-Type': 'application/json'
     })
   }
+  //User
   createUser(user): Observable<User> {
     return this.http.post<User>(this.apiURL + '/user/create', JSON.stringify(user), this.httpOptions)
     .pipe(
@@ -32,7 +34,14 @@ export class RestApiService {
       catchError(this.handleError)
     )
   }
-
+  getUserProfile(email:string):Observable<UserProfile>{
+    return this.http.post<UserProfile>(this.apiURL + '/user/get/profile', JSON.stringify({email:email}), this.httpOptions)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
+  }
+  //Room
   getAllRoomsChat(email:string):Observable<Rooms>{
     return this.http.get<Rooms>(this.apiURL + '/rooms/all/'+email)
     .pipe(
@@ -40,6 +49,7 @@ export class RestApiService {
       catchError(this.handleError)
     )
   }
+  //Message
   addMessage(message):Observable<Messages>{
     return this.http.post<Messages>(this.apiURL + '/message/add', JSON.stringify(message), this.httpOptions)
     .pipe(
@@ -49,6 +59,13 @@ export class RestApiService {
   }
   getMessageByRoom(roomId):Observable<Messages>{
     return this.http.get<Messages>(this.apiURL + '/message/all/'+roomId)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
+  }
+  getMessageLastByRoom(roomId):Observable<Messages>{
+    return this.http.get<Messages>(this.apiURL + '/message/last/'+roomId)
     .pipe(
       retry(1),
       catchError(this.handleError)

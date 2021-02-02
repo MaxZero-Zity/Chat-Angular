@@ -5,7 +5,7 @@ exports.findAllRoomById = ({email=''}) => {
         Models.sequelize.query(`
         SELECT 
         rooms.id as id,
-        (SELECT MAX(name) FROM users WHERE rooms.friend_id) as friend_name,
+        (SELECT MAX(name) FROM users WHERE users.id = rooms.friend_id) as friend_name,
         rooms.friend_id as friend_id,
         users.id as user_id,
         users.name as name,

@@ -1,6 +1,6 @@
 const Models = require('../models');
 const { validationResult } = require('express-validator');
-const {addMessage , findAllMessageById} = require('../functions/message/message');
+const {addMessage , findAllMessageById , findLastMessageById} = require('../functions/message/message');
 
 
 exports.getMessageAll =  (req, res, next) => {
@@ -34,7 +34,37 @@ exports.getMessageAll =  (req, res, next) => {
         }
     }
 }
+exports.getMessageLast =  (req, res, next) => {
 
+    try {
+        const { id } = req.params;
+        if(id !== undefined){
+            findLastMessageById({roomId:id})
+            .then((result) => {
+                res.status(200).json({
+                    message: 'success',
+                    status: 200,
+                    data: result
+                })
+            })
+            .catch((error => {
+                error.status = 400;
+                next(error)
+            }));
+        }else{
+            const error = new Error('ไม่มีแชทนี้');
+            error.status = 401
+            next(error);
+        }
+    } catch (e) {
+        if(!e.status) {
+            e.status = 500;
+            return next(e)
+        } else {
+            return next(e)
+        }
+    }
+}
 exports.addMessage =  (req, res, next) => {
 
     try {
@@ -60,6 +90,7 @@ exports.addMessage =  (req, res, next) => {
             res.status(200).json({
                 message: 'success',
                 status: 200,
+                data:result,
             })
         })
         .catch((error => {

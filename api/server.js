@@ -28,6 +28,36 @@ app.get('/', (req, res) => {
     res.send('hello!')
 });
 app.use('/api', router);
+
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  let error = new Error("Not Found");
+  error.status = 404;
+  next(error);
+});
+
+
+app.use(function (error, req, res, next) {
+  res.status(error.status || 500);
+  if (error.status == 422) {
+    res.json({
+      status: false,
+      message: error.message,
+      validate: error.validate,
+    });
+  } else {
+    console.error("error ", error);
+    res.json({
+      status: false,
+      message: error.message,
+      // error: (app.get('env') === 'development') ? error : {}
+      error: error,
+    });
+  }
+});
+
+
 //Socket.Io
 io.use(function(socket, next) {
   // var handshakeData = socket.request;
