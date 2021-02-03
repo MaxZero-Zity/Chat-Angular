@@ -43,38 +43,50 @@ export class DashboardComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    Swal.close();
+    Swal.fire({
+      title: 'Loading...',
+      didOpen: () => {
+        Swal.showLoading()
+      },
+    });
     this.getUserId();
-    // this.getAllRooms();
   }
   getUserId(){
     if(this.authService.isLoggedIn){
       const user = JSON.parse(localStorage.getItem('user'));
       this.email = user.email;
       this.restApi.getUserProfile(this.email).subscribe((data: UserProfile) => {
-          // console.log('data==',data.data.name);
           this.userId = data.data.id;
           this.getAllRooms()
       })
-
     }else{
-      window.alert('กรุณาล็อคอิน')
-      this.router.navigate(['/login']);
+      Swal.close()
+      setTimeout(()=>{
+        Swal.fire({
+          icon: 'error',
+          title: 'กรุณาล็อคอิน',
+          confirmButtonText: 'OK',
+        }).then((result)=>{
+          if (result.isConfirmed) {
+            this.router.navigate(['/login']);
+          }
+        })
+       }, 10);
     }
   }
   getAllRooms() {
     this.restApi.getAllRoomsChat(this.userId).subscribe((data: {}) => {
       this.rooms = data['data'];
-
+      Swal.close();
     })
   }
-  // selectChatRoom(roomId:Int16Array,friendName:string,friendId:Int16Array){
-  //   this.router.navigate(['/chat-inbox',roomId,friendName,friendId,this.userId]);
-  // }
   selectChatRoom(roomId:Int16Array,friendName:string,friendId:Int16Array){
-        // console.log('roomId ==',roomId);
-        // console.log('friendName ==',friendName);
-        // console.log('friendId ==',friendId);
+        Swal.fire({
+          title: 'Loading...',
+          didOpen: () => {
+            Swal.showLoading()
+          },
+        });
         this.statusSelectRoom = true;
         this.roomId = roomId;
         this.friendName = friendName;
@@ -83,43 +95,43 @@ export class DashboardComponent implements OnInit {
   }
 
   setupSocketConnection(){
-    // this.roomId = this.activatedRoute.snapshot.paramMap.get("id");
-    // this.friendName = this.activatedRoute.snapshot.paramMap.get("name");
-    // this.friendId = this.activatedRoute.snapshot.paramMap.get("friendId");
     this.socket = io(environment.SOCKET_ENDPOINT,{ query: "roomId="+this.roomId });
     this.restApi.getMessageByRoom(this.roomId).subscribe((data: {}) => {
         this.dataMessage = data['data']
-        // console.log(this.dataMessage);
     })
     this.socket.on('message-broadcast', (data: string) => {
-      // console.log('message-broadcast',data)
     if (data) {
         this.restApi.getMessageLastByRoom(this.roomId).subscribe((data: {}) => {
             this.dataMessage.push(data['data']);
         })
      }
+
    });
+   Swal.close();
   }
 
   async sendMessage(){
-    // console.log(this.message);
     await this.restApi.addMessage({text:this.message,room_id:this.roomId,user_id:this.userId}).subscribe((data: {}) => {
       this.dataMessage.push( data['data']);
-      console.log('roomId ==',this.roomId)
-      console.log('message ==',this.message)
       this.socket.emit('room'+this.roomId, this.message);
       this.message = '';
     })
   }
 
   addFriend(){
-      console.log('emailFriend =',this.addEmailFriend);
-      console.log('userId =',this.userId);
+      Swal.fire({
+        title: 'Loading...',
+        didOpen: () => {
+          Swal.showLoading()
+        },
+      });
       this.restApi.addRoom(this.addEmailFriend,this.userId).subscribe((data: {}) => {
-        console.log('addRoom ==',data);
-        Swal.fire('เพิ่มเพื่อนสำเร็จ').then((result)=>{
+        Swal.close()
+        setTimeout(()=>{
+          Swal.fire('เพิ่มเพื่อนสำเร็จ').then((result)=>{
             this.refresh();
-        });
+          });
+         }, 10);
         this.addEmailFriend = '';
       })
   }

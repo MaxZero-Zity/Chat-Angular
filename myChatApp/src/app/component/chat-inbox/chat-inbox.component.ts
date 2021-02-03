@@ -53,22 +53,14 @@ export class ChatInboxComponent implements OnInit {
 
     this.restApi.getMessageByRoom(this.roomId).subscribe((data: {}) => {
         this.dataMessage = data['data']
-        // console.log(this.dataMessage);
     })
 
     this.socket.on('message-broadcast', (data: string) => {
-      console.log('message-broadcast',data)
     if (data) {
     this.restApi.getMessageLastByRoom(this.roomId).subscribe((data: {}) => {
         var getData = data['data'];
         this.dataMessage.push(getData);
     })
-    //  const element = document.createElement('li');
-    //  element.innerHTML = data;
-    //  element.style.background = 'white';
-    //  element.style.padding =  '15px 30px';
-    //  element.style.margin = '10px';
-    //  document.getElementById('message-list').appendChild(element);
      }
    });
   }

@@ -1,4 +1,4 @@
-import { ErrorHandler, Injectable } from '@angular/core';
+import { ErrorHandler, Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders,HttpErrorResponse } from '@angular/common/http';
 import { User } from '../services/user-backend';
 import { Rooms } from '../services/room-model';
@@ -27,6 +27,9 @@ export class RestApiService {
       'Content-Type': 'application/json'
     })
   }
+
+
+
   //User
   createUser(user): Observable<User> {
     return this.http.post<User>(this.apiURL + '/user/create', JSON.stringify(user), this.httpOptions)
@@ -96,7 +99,13 @@ export class RestApiService {
         var getMessage = error.error.message;
         errorMessage = `Error Code: ${getStatus}\nMessage: ${getMessage}`;
       }
-      Swal.fire(errorMessage)
+      Swal.close()
+      setTimeout(function(){
+        Swal.fire({
+          icon: 'error',
+          title: errorMessage,
+        })
+       }, 10);
       return throwError(errorMessage);
    }
 

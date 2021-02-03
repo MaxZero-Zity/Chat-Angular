@@ -45,14 +45,13 @@ export class AuthService {
     });
     await firebase.auth().signInWithEmailAndPassword(email, password)
     .then((result) => {
-      console.log('result==',result);
       Swal.close()
       setTimeout(()=>{
         this.gotoDashboard()
       }, 10);
     }).catch((error) => {
       Swal.close()
-      setTimeout(function(){
+      setTimeout(()=>{
         var errorCode = error.code;
         var errorMessage = error.message;
         Swal.fire({
@@ -77,7 +76,6 @@ export class AuthService {
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
-        console.log('result==',result);
         Swal.close()
         setTimeout(()=>{
           this.gotoLogin();
@@ -85,7 +83,7 @@ export class AuthService {
         this.setDataUserRegister(result.user);
       }).catch((error) => {
         Swal.close()
-        setTimeout(function(){
+        setTimeout(()=>{
           var errorCode = error.code;
           var errorMessage = error.message;
           Swal.fire({
