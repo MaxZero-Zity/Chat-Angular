@@ -27,4 +27,67 @@ exports.findAllRoomById = ({id=0}) => {
     })
 }
 
+exports.findRelationShipRoomById = ({friendId=0,userId=0}) => {
+        return new Promise(((resolve, reject) => {
+            Models.relationship_rooms.findOne({
+                where: {
+                    friend_id:friendId,
+                    user_id:userId
+                }
+            }).then((data) => {
+                // console.log('data', data)
+                if(data) {
+                    const error = new Error('email is exits already')
+                    reject(error);
+                } else {
+                    resolve({message:'ok'})
+                }
+            }).catch((error => {reject(error)}));
+        }));
+}
+
+
+exports.addRoom = ({friendId=0,userId=0}) => {
+    return new Promise(((resolve, reject) => {
+        Models.rooms.create({
+            name:'TestRoom',
+            status:true,
+        }).then((data) => {
+            if(data) {
+                console.log('create ==', data)
+                var roomId  = data.dataValues.id
+                Models.relationship_rooms.create({
+                    user_id:userId,
+                    friend_id:friendId,
+                    room_id:roomId
+                }).then((data) => {
+                    if(data) {
+                        //add ของ เพื่อนต่อ
+                        Models.relationship_rooms.create({
+                            user_id:friendId,
+                            friend_id:userId,
+                            room_id:roomId
+                        }).then((data) => {
+                            if(data) {
+                                // console.log('message ==', data)
+                                resolve({message:'บันทึกสำเร็จ'})
+                            } else {
+                                const error = new Error('บันทึกไม่ได้')
+                                reject(error);
+                            }
+                        }).catch((error => {reject(error)}));
+                    } else {
+                        const error = new Error('บันทึกไม่ได้')
+                        reject(error);
+                    }
+                }).catch((error => {reject(error)}));
+
+            } else {
+                const error = new Error('บันทึกไม่ได้')
+                reject(error);
+            }
+        }).catch((error => {reject(error)}));
+    }));
+}
+
 

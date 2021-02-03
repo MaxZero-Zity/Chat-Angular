@@ -7,8 +7,8 @@ import { from } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestApiService } from 'src/app/shared/services/rest-api.service';
 import { environment } from 'src/environments/environment';
-import { faComment } from '@fortawesome/free-solid-svg-icons';
-
+import { faComment,faPlus } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2'
 
 
 @Component({
@@ -28,7 +28,11 @@ export class DashboardComponent implements OnInit {
   socket;
   message: string;
   faComment = faComment;
+  faPlus = faPlus;
   statusSelectRoom = false;
+
+  addEmailFriend:string;
+
   constructor(
     private activatedRoute:ActivatedRoute,
     public authService: AuthService,
@@ -103,7 +107,21 @@ export class DashboardComponent implements OnInit {
       this.socket.emit('room'+this.roomId, this.message);
       this.message = '';
     })
-
-
   }
+
+  addFriend(){
+      console.log('emailFriend =',this.addEmailFriend);
+      console.log('userId =',this.userId);
+      this.restApi.addRoom(this.addEmailFriend,this.userId).subscribe((data: {}) => {
+        console.log('addRoom ==',data);
+        Swal.fire('เพิ่มเพื่อนสำเร็จ').then((result)=>{
+            this.refresh();
+        });
+        this.addEmailFriend = '';
+      })
+  }
+  refresh(): void {
+    window.location.reload();
+  }
+
 }

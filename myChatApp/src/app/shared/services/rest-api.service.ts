@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ErrorHandler, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders,HttpErrorResponse } from '@angular/common/http';
 import { User } from '../services/user-backend';
 import { Rooms } from '../services/room-model';
 import { Messages } from '../services/message-model';
@@ -7,7 +7,8 @@ import { UserProfile } from '../services/userProfile-model';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-
+import { AddRoom } from './addRoom-model';
+import Swal from 'sweetalert2'
 @Injectable({
   providedIn: 'root'
 })
@@ -49,6 +50,14 @@ export class RestApiService {
       catchError(this.handleError)
     )
   }
+
+  addRoom(email:string,user_id:Int16Array):Observable<AddRoom>{
+    return this.http.post<AddRoom>(this.apiURL + '/rooms/add', JSON.stringify({email:email,userId:user_id}), this.httpOptions)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
+  }
   //Message
   addMessage(message):Observable<Messages>{
     return this.http.post<Messages>(this.apiURL + '/message/add', JSON.stringify(message), this.httpOptions)
@@ -76,15 +85,18 @@ export class RestApiService {
 
     // Error handling
     handleError(error) {
+
       let errorMessage = '';
-      if(error.error instanceof ErrorEvent) {
+      if(error.error instanceof HttpErrorResponse) {
         // Get client-side error
-        errorMessage = error.error.message;
+        errorMessage = error.message;
       } else {
         // Get server-side error
-        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+        var getStatus = error.error.statusCode ? error.error.statusCode : '' ;
+        var getMessage = error.error.message;
+        errorMessage = `Error Code: ${getStatus}\nMessage: ${getMessage}`;
       }
-      window.alert(errorMessage);
+      Swal.fire(errorMessage)
       return throwError(errorMessage);
    }
 

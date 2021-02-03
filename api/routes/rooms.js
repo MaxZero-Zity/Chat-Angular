@@ -13,5 +13,10 @@ router.post('/all',
 ],
 RoomsController.getAllById);
 
-
+router.post('/add', 
+[
+    body('email').isEmail().normalizeEmail().escape(),
+    body('userId').not().isEmpty().isInt(),
+],
+RoomsController.addRoom);
 module.exports = router;
