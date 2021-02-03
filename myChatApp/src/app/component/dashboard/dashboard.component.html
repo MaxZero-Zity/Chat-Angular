@@ -28,6 +28,9 @@
     </div>
     <!-- Chat Box-->
     <div  class="col-7 px-0">
+      <div *ngIf="this.friendName" class="px-4 py-2 d-flex justify-content-center bg-primary" >
+        <p class="h5 mb-0 py-1 text-white">{{this.friendName}}</p>
+      </div>
       <div #scrollMe class="px-4 py-5 chat-box bg-white">
         <div *ngFor="let item of dataMessage">
           <!-- Sender Message-->
@@ -36,7 +39,7 @@
                 <div class="bg-light rounded py-2 px-3 mb-2">
                   <p class="text-small mb-0 text-muted">{{item['text']}}</p>
                 </div>
-                <p class="small text-muted">  {{covertTime(item['createdAt'])}}</p>
+                <p class="small text-muted">{{covertTime(item['createdAt'])}}</p>
               </div>
             </div>
           <!-- Reciever Message-->
