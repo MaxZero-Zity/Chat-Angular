@@ -67,18 +67,37 @@ export class AuthService {
   }
   // Sign up with email/password
   register(email, password) {
-    // window.alert("SignUp");
-    return firebase.auth().createUserWithEmailAndPassword(email, password)
+    Swal.fire({
+      title: 'Loading...',
+      didOpen: () => {
+        Swal.showLoading()
+      },
+    });
+    firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
-        this.sendVerificationMail();
+        console.log('result==',result);
+        Swal.close()
+        setTimeout(()=>{
+          this.gotoLogin();
+        }, 10);
         this.setDataUserRegister(result.user);
       }).catch((error) => {
-        window.alert(error.message)
-      })
+        Swal.close()
+        setTimeout(function(){
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          Swal.fire({
+            icon: 'error',
+            title: errorMessage,
+          })
+         }, 10);
+    })
   }
-
+  gotoLogin(){
+    this.router.navigate(['/login']);
+  }
   // Send email verfificaiton when new user sign up
   sendVerificationMail() {
     return firebase.auth().currentUser.sendEmailVerification()
