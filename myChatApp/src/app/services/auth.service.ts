@@ -5,7 +5,7 @@ import firebase from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { RestApiService } from '../shared/services/rest-api.service';
-
+import Swal from 'sweetalert2'
 
 
 @Injectable({
@@ -37,15 +37,33 @@ export class AuthService {
 
   // Sign in with email/password
   async logIn(email, password)  {
-    return await firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.setUserData(result.user);
-        this.router.navigate(['/dashboard']);
-      }).catch((error) => {
+    Swal.fire({
+      title: 'Loading...',
+      didOpen: () => {
+        Swal.showLoading()
+      },
+    });
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((result) => {
+      console.log('result==',result);
+      Swal.close()
+      setTimeout(()=>{
+        this.gotoDashboard()
+      }, 10);
+    }).catch((error) => {
+      Swal.close()
+      setTimeout(function(){
         var errorCode = error.code;
         var errorMessage = error.message;
-        window.alert(errorMessage)
-      })
+        Swal.fire({
+          icon: 'error',
+          title: errorMessage,
+        })
+       }, 10);
+    })
+  }
+  gotoDashboard(){
+    this.router.navigate(['/dashboard']);
   }
   // Sign up with email/password
   register(email, password) {

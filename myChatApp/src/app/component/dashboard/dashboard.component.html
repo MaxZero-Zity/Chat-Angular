@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="container py-5 px-4">
+<div class="container py-6 px-4">
   <div class="row rounded-lg overflow-hidden shadow">
     <!-- Users box-->
     <div class="col-5 px-0">
@@ -52,8 +52,17 @@
       </div>
       <!-- Typing area -->
         <div class="input-group">
-          <input [disabled]="!statusSelectRoom" type="text" placeholder="Type a message" class="form-control rounded-0 border-0 py-4 bg-light" [(ngModel)]="message">
+          <input [disabled]="!statusSelectRoom" type="text" placeholder="Type a message" class="form-control rounded-2 border-0 py-4 bg-light" [(ngModel)]="message">
           <div class="input-group-append">
+            <!-- <button
+            [disabled]="!statusSelectRoom"
+            id="button-addon2" type="submit"
+            class="btn btn-link"
+            (click)="toggled = !toggled"
+            [(emojiPickerIf)]="toggled"
+            [emojiPickerDirection]="'bottom' || 'top' || 'left' || 'right'" (emojiPickerSelect)="handleSelection($event)">
+              <fa-icon [icon]="faSmile"></fa-icon>
+            </button> -->
             <button  [disabled]="!statusSelectRoom" (click)="sendMessage()" id="button-addon2" type="submit" class="btn btn-link">  <fa-icon [icon]="faComment"></fa-icon></button>
           </div>
         </div>

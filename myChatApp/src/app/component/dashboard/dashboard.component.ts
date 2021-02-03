@@ -1,5 +1,5 @@
 import { UserProfile } from './../../shared/services/userProfile-model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { io } from 'socket.io-client';
@@ -7,7 +7,7 @@ import { from } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestApiService } from 'src/app/shared/services/rest-api.service';
 import { environment } from 'src/environments/environment';
-import { faComment,faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faComment,faPlus,faSmile } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2'
 
 
@@ -29,9 +29,10 @@ export class DashboardComponent implements OnInit {
   message: string;
   faComment = faComment;
   faPlus = faPlus;
+  faSmile = faSmile;
   statusSelectRoom = false;
-
   addEmailFriend:string;
+  toggled: boolean = true;
 
   constructor(
     private activatedRoute:ActivatedRoute,
@@ -42,6 +43,7 @@ export class DashboardComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    Swal.close();
     this.getUserId();
     // this.getAllRooms();
   }
@@ -63,6 +65,7 @@ export class DashboardComponent implements OnInit {
   getAllRooms() {
     this.restApi.getAllRoomsChat(this.userId).subscribe((data: {}) => {
       this.rooms = data['data'];
+
     })
   }
   // selectChatRoom(roomId:Int16Array,friendName:string,friendId:Int16Array){
@@ -122,6 +125,10 @@ export class DashboardComponent implements OnInit {
   }
   refresh(): void {
     window.location.reload();
+  }
+  handleSelection(event) {
+    console.log(event.char);
+    this.message += event.char;
   }
 
 }

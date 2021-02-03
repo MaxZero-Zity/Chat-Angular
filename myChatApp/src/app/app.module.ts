@@ -24,7 +24,7 @@ import { ChatBoxUserComponent } from './component/chat-box-user/chat-box-user.co
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-
+import  {  NgxEmojiPickerModule  }  from  'ngx-emoji-picker';
 
 
 
@@ -42,6 +42,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ChatBoxUserComponent,
   ],
   imports: [
+    NgxEmojiPickerModule,
     FontAwesomeModule,
     HttpClientModule,
     BrowserModule,

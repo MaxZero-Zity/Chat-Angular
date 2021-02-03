@@ -29,6 +29,8 @@
     "fs": "0.0.1-security",
     "jquery": "^3.5.1",
     "moment": "^2.29.1",
+    "ng-emoji-button-picker": "^1.2.1",
+    "ngx-emoji-picker": "^0.1.6",
     "ngx-moment": "^5.0.0",
     "path": "^0.12.7",
     "popper.js": "^1.16.1",
@@ -36,6 +38,7 @@
     "socket.io-client": "^3.1.0",
     "sweetalert2": "^10.14.0",
     "tslib": "^2.0.0",
+    "twemoji": "^13.0.1",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {
