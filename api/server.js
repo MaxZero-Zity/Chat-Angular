@@ -67,7 +67,7 @@ io.use(function(socket, next) {
 io.on('connection',(socket) =>{
     var roomId = socket.request;
     var stringRoomId = 'room'+String(roomId._query['roomId']);
-    // console.log('a user connected == '+stringRoomId);
+    console.log('a user connected == '+stringRoomId);
     socket.join(stringRoomId);
     socket.on(stringRoomId,(msg)=>{
         socket.broadcast.to(stringRoomId).emit('message-broadcast',msg);

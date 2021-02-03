@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
       const user = JSON.parse(localStorage.getItem('user'));
       this.email = user.email;
       this.restApi.getUserProfile(this.email).subscribe((data: UserProfile) => {
-          console.log('data==',data.data.name);
+          // console.log('data==',data.data.name);
           this.userId = data.data.id;
           this.getAllRooms()
       })
@@ -65,9 +65,9 @@ export class DashboardComponent implements OnInit {
   //   this.router.navigate(['/chat-inbox',roomId,friendName,friendId,this.userId]);
   // }
   selectChatRoom(roomId:Int16Array,friendName:string,friendId:Int16Array){
-        console.log('roomId ==',roomId);
-        console.log('friendName ==',friendName);
-        console.log('friendId ==',friendId);
+        // console.log('roomId ==',roomId);
+        // console.log('friendName ==',friendName);
+        // console.log('friendId ==',friendId);
         this.statusSelectRoom = true;
         this.roomId = roomId;
         this.friendName = friendName;
@@ -82,27 +82,28 @@ export class DashboardComponent implements OnInit {
     this.socket = io(environment.SOCKET_ENDPOINT,{ query: "roomId="+this.roomId });
     this.restApi.getMessageByRoom(this.roomId).subscribe((data: {}) => {
         this.dataMessage = data['data']
-        console.log(this.dataMessage);
+        // console.log(this.dataMessage);
     })
-
     this.socket.on('message-broadcast', (data: string) => {
-      console.log('message-broadcast',data)
+      // console.log('message-broadcast',data)
     if (data) {
         this.restApi.getMessageLastByRoom(this.roomId).subscribe((data: {}) => {
-            var getData = data['data'];
-            this.dataMessage.push(getData);
+            this.dataMessage.push(data['data']);
         })
      }
    });
   }
 
-  sendMessage(){
-    console.log(this.message);
-    this.socket.emit('room'+this.roomId, this.message);
-    this.restApi.addMessage({text:this.message,room_id:this.roomId,user_id:this.userId}).subscribe((data: {}) => {
-      var getData = data['data'];
-      this.dataMessage.push(getData);
+  async sendMessage(){
+    // console.log(this.message);
+    await this.restApi.addMessage({text:this.message,room_id:this.roomId,user_id:this.userId}).subscribe((data: {}) => {
+      this.dataMessage.push( data['data']);
+      console.log('roomId ==',this.roomId)
+      console.log('message ==',this.message)
+      this.socket.emit('room'+this.roomId, this.message);
+      this.message = '';
     })
-    this.message = '';
+
+
   }
 }

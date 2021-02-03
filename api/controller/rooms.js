@@ -18,7 +18,7 @@ exports.getAllById = (req, res, next) => {
                 errors: errors.array()
             });
         }
-        console.log('id ==',id);
+        // console.log('id ==',id);
         findAllRoomById({id:id})
         .then((result) => {
             res.status(200).json({

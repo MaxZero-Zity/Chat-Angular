@@ -11,7 +11,7 @@ exports.findAllMessageById = ({roomId=0}) => {
                 ['createdAt', 'ASC']
             ],
         }).then((data) => {
-            console.log('data', data)
+            // console.log('data', data)
             if(data) {
                 resolve(data)
             } else {
@@ -34,7 +34,7 @@ exports.findLastMessageById = ({roomId=0}) => {
             ],
             limit:1
         }).then((data) => {
-            console.log('data', data)
+            // console.log('data', data)
             if(data) {
                 resolve(data)
             } else {
@@ -48,9 +48,9 @@ exports.findLastMessageById = ({roomId=0}) => {
 
 
 exports.addMessage = ({text='',userId=0,roomId=0}) => {
-    console.log("text==",text);
-    console.log("userId==",userId);
-    console.log("roomId==",roomId);
+    // console.log("text==",text);
+    // console.log("userId==",userId);
+    // console.log("roomId==",roomId);
     return new Promise(((resolve, reject) => {
         Models.messages.create({
             text:text,
@@ -59,9 +59,8 @@ exports.addMessage = ({text='',userId=0,roomId=0}) => {
             read_status:false,
             status:true,
         }).then((data) => {
-
             if(data) {
-                console.log('message ==', data)
+                // console.log('message ==', data)
                 resolve(data)
             } else {
                 const error = new Error('บันทึกไม่ได้')

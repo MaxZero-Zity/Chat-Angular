@@ -53,7 +53,7 @@ export class ChatInboxComponent implements OnInit {
 
     this.restApi.getMessageByRoom(this.roomId).subscribe((data: {}) => {
         this.dataMessage = data['data']
-        console.log(this.dataMessage);
+        // console.log(this.dataMessage);
     })
 
     this.socket.on('message-broadcast', (data: string) => {
