@@ -1,5 +1,5 @@
 import { UserProfile } from './../../shared/services/userProfile-model';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { io } from 'socket.io-client';
@@ -17,6 +17,7 @@ import Swal from 'sweetalert2'
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   imageSrc = '../../../assets/MaxZero-logo.png';
   rooms: any = [];
   email: string;
@@ -104,9 +105,14 @@ export class DashboardComponent implements OnInit {
         this.restApi.getMessageLastByRoom(this.roomId).subscribe((data: {}) => {
             this.dataMessage.push(data['data']);
         })
+
      }
 
    });
+   setTimeout(()=>{
+    this.scrollToBottom();
+   }, 30);
+
    Swal.close();
   }
 
@@ -141,6 +147,12 @@ export class DashboardComponent implements OnInit {
   handleSelection(event) {
     console.log(event.char);
     this.message += event.char;
+  }
+  scrollToBottom(): void {
+    console.log('55555')
+    try {
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }
   }
 
 }

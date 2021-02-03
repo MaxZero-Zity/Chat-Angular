@@ -27,8 +27,8 @@
       </div>
     </div>
     <!-- Chat Box-->
-    <div class="col-7 px-0">
-      <div class="px-4 py-5 chat-box bg-white">
+    <div  class="col-7 px-0">
+      <div #scrollMe class="px-4 py-5 chat-box bg-white">
         <div *ngFor="let item of dataMessage">
           <!-- Sender Message-->
             <div  *ngIf="friendId === item['user_id']" class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
