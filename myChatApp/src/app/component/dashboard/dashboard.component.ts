@@ -9,7 +9,7 @@ import { RestApiService } from 'src/app/shared/services/rest-api.service';
 import { environment } from 'src/environments/environment';
 import { faComment,faPlus,faSmile } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2'
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,7 +41,9 @@ export class DashboardComponent implements OnInit {
     public afAuth: AngularFireAuth,
     public restApi: RestApiService,
     public router: Router,
-    ) { }
+    ) {
+
+    }
 
   ngOnInit(): void {
     Swal.fire({
@@ -51,6 +53,11 @@ export class DashboardComponent implements OnInit {
       },
     });
     this.getUserId();
+  }
+  covertTime(time){
+    moment.locale();
+    let getTime = moment(time).format('MMM DD, h:mm a');
+    return getTime;
   }
   getUserId(){
     if(this.authService.isLoggedIn){
@@ -149,7 +156,6 @@ export class DashboardComponent implements OnInit {
     this.message += event.char;
   }
   scrollToBottom(): void {
-    console.log('55555')
     try {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) { }
